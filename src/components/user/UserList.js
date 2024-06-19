@@ -47,7 +47,7 @@ const UserList = () => {
             name: "Actions",
             element: row => (
                 <>
-                    <Link to = {`/user/edit/${row.id}`} className="btn btn-sm btn-warning me-1"><i className="fa fa-pencil"></i> Edit</Link>
+                    <Link to={`/user/edit/${row.id}`} className="btn btn-sm btn-warning me-1"><i className="fa fa-pencil"></i> Edit</Link>
                     <button type="button" className="btn btn-sm btn-danger me-1" onClick={() => handleDelete(row.id)}><i className="fa fa-trash"></i> Delete</button>
                 </>
             )
@@ -114,7 +114,7 @@ const UserList = () => {
                 <div className="container-fluid px-4">
                     <h1 className="mt-4">Tables</h1>
                     <ol className="breadcrumb mb-4">
-                        <li className="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li className="breadcrumb-item"><Link to="/">Dashboard</Link></li>
                         <li className="breadcrumb-item active">Tables</li>
                     </ol>
                     <div className='mb-3'>
