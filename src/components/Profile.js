@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 const Profile = () => {
     const dispatch = useDispatch();
     const [profileData, setProfileData] = useState({});
-
+    const [isSelectedFile, setIsSelectFile] = useState(false);
     useEffect(() => {
         dispatch(actions.controlLoading(true));
         requestApi('/users/profile', 'GET')
@@ -30,26 +30,27 @@ const Profile = () => {
                 setProfileData({
                     ...profileData, avatar: reader.result, file: file
                 })
+                setIsSelectFile(true);
             }
             reader.readAsDataURL(file)
         }
     }
-    
+
     const handleUpdateAvatar = () => {
         let formData = new FormData()
         formData.append('avatar', profileData.file)
-    
+
         dispatch(actions.controlLoading(true))
         requestApi('/users/upload-avatar', 'POST', formData, 'json', 'multipart/form-data').then(res => {
             console.log("res => ", res)
             dispatch(actions.controlLoading(false))
-            toast.success('Avatar has been updated successfully!', {position: 'top-center', autoClose: 2000})
+            toast.success('Avatar has been updated successfully!', { position: 'top-center', autoClose: 2000 })
         }).catch(err => {
             console.log("err => ", err)
             dispatch(actions.controlLoading(false))
         })
     }
-    
+
 
     return (
         <div id="LayoutSidenav_content">
@@ -66,13 +67,11 @@ const Profile = () => {
                         <div className="card-body">
                             <div className="row mb-3">
                                 <div className="col-md-4">
-                                    <div>{profileData.avatar}</div>
-                                    {/* <img
-                                        // src={profileData.avatar && profileData.avatar !== 'http://localhost:5000/null' ? profileData.avatar : "../assets/images/default-avatar.png"}
-                                        src={profileData.avatar ? "http://localhost:5000/avatar/1718620262451_25D.jpg" : "../assets/images/default-avatar.png"}
+                                    <img
+                                        src={profileData.avatar && profileData.avatar !== 'http://localhost:5000/null' ? profileData.avatar : "../assets/images/default-avatar.png"}
                                         className="img-thumbnail rounded mb-2"
                                         alt="avatar"
-                                    /> */}
+                                    />
                                     <div className="input-file float-start">
                                         <label htmlFor="file" className="btn btn-sm btn-primary">
                                             Browse Files
@@ -80,7 +79,7 @@ const Profile = () => {
                                         <input id="file" type="file" onChange={onImageChange} accept="image/*" />
                                     </div>
                                 </div>
-                                <button className="btn btn-sm btn-success float-end" onClick={handleUpdateAvatar}>Update</button>
+                                {isSelectedFile && <button className="btn btn-sm btn-success float-end" onClick={handleUpdateAvatar}>Update</button>}
                             </div>
                         </div>
                     </div>
