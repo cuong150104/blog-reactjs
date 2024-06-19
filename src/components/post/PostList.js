@@ -5,10 +5,11 @@ import { useDispatch } from 'react-redux'
 import * as actions from '../../redux/actions'
 import { Button, Modal } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 import { formatDateTime } from '../../helpers/common'
-const UserList = () => {
+const PostList = () => {
     const dispatch = useDispatch()
-    const [users, setUsers] = useState([])
+    const [posts, setPosts] = useState([])
     const [numOfPage, setNumOfPage] = useState(1)
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(4)
@@ -25,16 +26,16 @@ const UserList = () => {
             element: row => row.id
         },
         {
-            name: "First name",
-            element: row => row.first_name
+            name: "Title",
+            element: row => row.title
         },
         {
-            name: "Last name",
-            element: row => row.last_name
+            name: "Thumbnail",
+            element: row => <img width="70px" src={process.env.REACT_APP_API_URL + '/' + row.thumbnail} />
         },
         {
-            name: "Email",
-            element: row => row.email
+            name: "Status",
+            element: row => row.status == 1 ? "Active" : "Inactive"
         },
         {
             name: "Created at",
@@ -54,7 +55,9 @@ const UserList = () => {
             )
         }
     ]
-
+    // const formatDateTime = (datetime) => {
+    //     return moment(datetime).format('DD/MM/YYYY h:mm:ss A')
+    // }
     const handleDelete = (id) => {
         console.log("single delete with id => ", id)
         setShowModal(true)
@@ -71,7 +74,7 @@ const UserList = () => {
     const requestDeleteApi = () => {
         if (deleteType === 'single') {
             dispatch(actions.controlLoading(true))
-            requestApi(`/users/${deleteItem}`, 'DELETE', []).then(response => {
+            requestApi(`/posts/${deleteItem}`, 'DELETE', []).then(response => {
                 setShowModal(false)
                 setRefresh(Date.now())
                 dispatch(actions.controlLoading(false))
@@ -82,7 +85,7 @@ const UserList = () => {
             })
         } else {
             dispatch(actions.controlLoading(true))
-            requestApi(`/users/multiple?ids=${selectedRows.toString()}`, 'DELETE', []).then(response => {
+            requestApi(`/posts/multiple?ids=${selectedRows.toString()}`, 'DELETE', []).then(response => {
                 setShowModal(false)
                 setRefresh(Date.now())
                 setSelectedRows([])
@@ -98,9 +101,9 @@ const UserList = () => {
     useEffect(() => {
         dispatch(actions.controlLoading(true))
         let query = `?items_per_page=${itemsPerPage}&page=${currentPage}&search=${searchString}`
-        requestApi(`/users${query}`, 'GET', []).then(response => {
+        requestApi(`/posts${query}`, 'GET', []).then(response => {
             console.log("response=> ", response)
-            setUsers(response.data.data)
+            setPosts(response.data.data)
             setNumOfPage(response.data.lastPage)
             dispatch(actions.controlLoading(false))
         }).catch(err => {
@@ -123,8 +126,8 @@ const UserList = () => {
                         {selectedRows.length > 0 && <button type='button' className='btn btn-sm btn-danger' onClick={handleMultiDelete}><i className="fa fa-trash"></i> Delete</button>}
                     </div>
                     <DataTable
-                        name="List Users"
-                        data={users}
+                        name="List Posts"
+                        data={posts}
                         columns={columns}
                         numOfPage={numOfPage}
                         currentPage={currentPage}
@@ -157,4 +160,4 @@ const UserList = () => {
     )
 }
 
-export default UserList
+export default PostList
