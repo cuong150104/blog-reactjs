@@ -11699,3 +11699,29 @@ body {
   font-size: 0.75rem;
   border-radius: 0.25rem !important;
 }
+
+/* custom css */
+/* .input-file{
+  #file{
+    display: none;
+  }
+} */
+
+.input-file {
+  input[type="file"] {
+    display: none;
+  }
+  
+  label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}
