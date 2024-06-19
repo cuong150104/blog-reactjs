@@ -4,7 +4,7 @@ import requestApi from '../../helpers/api'
 import { useDispatch } from 'react-redux'
 import * as actions from '../../redux/actions'
 import { Button, Modal } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import moment from 'moment'
 import { formatDateTime } from '../../helpers/common'
 const PostList = () => {
@@ -20,6 +20,7 @@ const PostList = () => {
     const [showModal, setShowModal] = useState(false)
     const [refresh, setRefresh] = useState(Date.now())
 
+
     const columns = [
         {
             name: "ID",
@@ -28,6 +29,11 @@ const PostList = () => {
         {
             name: "Title",
             element: row => row.title
+        },
+
+        {
+            name: "Summary",
+            element: row => row.summary
         },
         {
             name: "Thumbnail",
@@ -49,8 +55,8 @@ const PostList = () => {
             name: "Actions",
             element: row => (
                 <>
-                    <Link to={`/user/edit/${row.id}`} className="btn btn-sm btn-warning me-1"><i className="fa fa-pencil"></i> Edit</Link>
-                    <button type="button" className="btn btn-sm btn-danger me-1" onClick={() => handleDelete(row.id)}><i className="fa fa-trash"></i> Delete</button>
+                    <Link to={`/post/edit/${row.id}`} className="btn btn-sm btn-warning me-1"><i className="fa fa-pencil"></i> </Link>
+                    <button type="button" className="btn btn-sm btn-danger me-1" onClick={() => handleDelete(row.id)}><i className="fa fa-trash"></i></button>
                 </>
             )
         }
@@ -122,7 +128,7 @@ const PostList = () => {
                         <li className="breadcrumb-item active">Tables</li>
                     </ol>
                     <div className='mb-3'>
-                        <Link className='btn btn-sm btn-success me-2' to='/user/add'><i className="fa fa-plus"></i> Add new --</Link>
+                        <Link className='btn btn-sm btn-success me-2' to='/post/add'><i className="fa fa-plus"></i> Add new --</Link>
                         {selectedRows.length > 0 && <button type='button' className='btn btn-sm btn-danger' onClick={handleMultiDelete}><i className="fa fa-trash"></i> Delete</button>}
                     </div>
                     <DataTable
