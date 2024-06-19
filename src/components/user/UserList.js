@@ -4,13 +4,13 @@ import requestApi from '../../helpers/api'
 import { useDispatch } from 'react-redux'
 import * as actions from '../../redux/actions'
 import { Button, Modal } from 'react-bootstrap'
-
+import { Link } from 'react-router-dom'
 const UserList = () => {
     const dispatch = useDispatch()
     const [users, setUsers] = useState([])
     const [numOfPage, setNumOfPage] = useState(1)
     const [currentPage, setCurrentPage] = useState(1)
-    const [itemsPerPage, setItemsPerPage] = useState(1)
+    const [itemsPerPage, setItemsPerPage] = useState(4)
     const [searchString, setSearchString] = useState('')
     const [selectedRows, setSelectedRows] = useState([])
     const [deleteItem, setDeleteItem] = useState(null)
@@ -47,7 +47,7 @@ const UserList = () => {
             name: "Actions",
             element: row => (
                 <>
-                    <button type="button" className="btn btn-sm btn-warning me-1"><i className="fa fa-pencil"></i> Edit</button>
+                    <Link to = {`/user/edit/${row.id}`} className="btn btn-sm btn-warning me-1"><i className="fa fa-pencil"></i> Edit</Link>
                     <button type="button" className="btn btn-sm btn-danger me-1" onClick={() => handleDelete(row.id)}><i className="fa fa-trash"></i> Delete</button>
                 </>
             )
@@ -118,7 +118,7 @@ const UserList = () => {
                         <li className="breadcrumb-item active">Tables</li>
                     </ol>
                     <div className='mb-3'>
-                        <button type='button' className='btn btn-sm btn-success me-2'><i className="fa fa-plus"></i> Add new</button>
+                        <Link className='btn btn-sm btn-success me-2' to='/user/add'><i className="fa fa-plus"></i> Add new --</Link>
                         {selectedRows.length > 0 && <button type='button' className='btn btn-sm btn-danger' onClick={handleMultiDelete}><i className="fa fa-trash"></i> Delete</button>}
                     </div>
                     <DataTable
