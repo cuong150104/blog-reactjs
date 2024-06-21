@@ -1,0 +1,21 @@
+.listWrapperPost {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background-color: rgba(236, 234, 234, 0.667)
+}
+  
+  .listResultPost {
+    flex: 6;
+  }
+
+  .AccountUser {
+    flex: 2;
+    background-color:white;
+    padding: 10px;
+    border-radius: 10px;
+    position: sticky;
+    top: 10px;
+    height: max-content;
+  }

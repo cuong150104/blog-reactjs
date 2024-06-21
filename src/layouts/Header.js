@@ -4,10 +4,11 @@ const Header = () => {
     const navigate = useNavigate()
 
     const onHandleLogout = () => {
-        localStorage.removeItem('access_token')
-        localStorage.removeItem('refresh_token')
-        navigate("/login")
-    }
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('roles');
+        navigate("/login");
+      };
     return (
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a className="navbar-brand ps-3" href="index.html">Start Bootstrap</a>

@@ -35,9 +35,10 @@ export default function requestApi(endpoint, method, body = [], responseType = '
                     const result = await instance.post(`${process.env.REACT_APP_API_URL}/auth/refresh-token`, {
                         refresh_token: localStorage.getItem('refresh_token')
                     })
-                    const { access_token, refresh_token } = result.data;
+                    const { access_token, refresh_token,roles } = result.data;
                     localStorage.setItem('access_token', access_token)
                     localStorage.setItem('refresh_token', refresh_token)
+                    localStorage.setItem('roles', roles);
                     originalConfig.headers['Authorization'] = `Bearer ${access_token}`
 
                     return instance(originalConfig)
@@ -45,6 +46,7 @@ export default function requestApi(endpoint, method, body = [], responseType = '
                     if (err.response && err.response.status === 400) {
                         localStorage.removeItem('access_token')
                         localStorage.removeItem('refresh_token')
+                        localStorage.removeItem('roles')
                         window.location.href = '/login'
                     }
                     return Promise.reject(err)

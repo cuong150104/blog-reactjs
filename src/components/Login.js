@@ -4,30 +4,32 @@ import requestApi from '../helpers/api';
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux';
 import * as actions from '../redux/actions';
-const Login = () => {
+
+const Login = ({ onLogin }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [loginData, setLoginData] = useState({});
     const [formErrors, setFormErrors] = useState({});
-    const [isSubmited, setIsSubmitted] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
     const onChange = (event) => {
         let target = event.target;
         setLoginData({
             ...loginData, [target.name]: target.value
-        })
+        });
     }
 
     useEffect(() => {
-        if (isSubmited) {
+        if (isSubmitted) {
             validateForm();
         }
-    }, [loginData])
+    }, [loginData]);
 
     const validateForm = () => {
         let isValid = true;
         const errors = {};
         if (loginData.email === '' || loginData.email === undefined) {
-            errors.email = "Please enter email"
+            errors.email = "Please enter email";
         } else {
             let valid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(loginData.email);
             if (!valid) {
@@ -42,8 +44,7 @@ const Login = () => {
         if (Object.keys(errors).length > 0) {
             setFormErrors(errors);
             isValid = false;
-        }
-        else {
+        } else {
             setFormErrors({});
         }
 
@@ -51,33 +52,36 @@ const Login = () => {
     }
 
     const onSubmit = () => {
-        console.log(loginData)
+        console.log(loginData);
         let valid = validateForm();
         if (valid) {
-            //request login api
-            console.log("request login api")
-            dispatch(actions.controlLoading(true))
+            console.log("request login api");
+            dispatch(actions.controlLoading(true));
             requestApi('/auth/login', 'POST', loginData).then((res) => {
-                console.log(res)
+                console.log("check res => ", res);
                 localStorage.setItem('access_token', res.data.access_token);
                 localStorage.setItem('refresh_token', res.data.refresh_token);
-                dispatch(actions.controlLoading(false))
+                localStorage.setItem('roles', res.data.userData.roles);
+                console.log("check res => ", res.data.userData.roles);
+                dispatch(actions.controlLoading(false));
+                onLogin();
                 navigate('/');
             }).catch(err => {
-                dispatch(actions.controlLoading(false))
-                console.log(err)
+                dispatch(actions.controlLoading(false));
+                console.log(err);
                 if (typeof err.response !== "undefined") {
                     if (err.response.status !== 201) {
-                        toast.error(err.response.data.message, { position: "top-center" })
+                        toast.error(err.response.data.message, { position: "top-center" });
                     }
                 } else {
-                    toast.error("Server is down. Please try again!", { position: "top-center" })
+                    toast.error("Server is down. Please try again!", { position: "top-center" });
                 }
-            })
+            });
         }
 
         setIsSubmitted(true);
     }
+
     return (
         <div id="layoutAuthentication" className="bg-primary">
             <div id="layoutAuthentication_content">
@@ -91,12 +95,12 @@ const Login = () => {
                                         <form>
                                             <div className="form-floating mb-3">
                                                 <input className="form-control" type="email" name='email' onChange={onChange} placeholder="name@example.com" />
-                                                <label >Email address</label>
+                                                <label>Email address</label>
                                                 {formErrors.email && <p style={{ color: 'red' }}>{formErrors.email}</p>}
                                             </div>
                                             <div className="form-floating mb-3">
                                                 <input className="form-control" name='password' type="password" onChange={onChange} placeholder="Password" />
-                                                <label >Password</label>
+                                                <label>Password</label>
                                                 {formErrors.password && <p style={{ color: 'red' }}>{formErrors.password}</p>}
                                             </div>
                                             <div className="d-flex align-items-center justify-content-between mt-4 mb-0">
@@ -114,8 +118,8 @@ const Login = () => {
                             </div>
                         </div>
                     </div>
-                </main >
-            </div >
+                </main>
+            </div>
             <div id="layoutAuthentication_footer">
                 <footer className="py-4 bg-light mt-auto">
                     <div className="container-fluid px-4">
@@ -130,9 +134,8 @@ const Login = () => {
                     </div>
                 </footer>
             </div>
-        </div >
-    )
-
+        </div>
+    );
 }
 
-export default Login
+export default Login;
