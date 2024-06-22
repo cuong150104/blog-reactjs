@@ -7,6 +7,7 @@ const Header = () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
         localStorage.removeItem('roles');
+        localStorage.removeItem('id');
         navigate("/login");
       };
     return (

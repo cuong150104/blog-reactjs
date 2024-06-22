@@ -1,0 +1,7 @@
+.empty-h1 {
+    height: 20px; /* Đặt chiều cao mong muốn */
+    margin-top: 20px; /* Có thể thay đổi margin-top để điều chỉnh khoảng cách từ phía trên */
+    margin-bottom: 20px; /* Có thể thay đổi margin-bottom để điều chỉnh khoảng cách từ phía dưới */
+    background-color: transparent; /* Để phần tử không có màu nền */
+    border: none; /* Loại bỏ border nếu có */
+}

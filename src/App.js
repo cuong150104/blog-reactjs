@@ -21,6 +21,9 @@ import PostUpdate from './components/post/PostUpdate';
 import Navbar from './components/Client/Navbar/Navbar';
 import Home from './pages/Home/Home'
 import Post from './pages/Post/Post';
+import ProfileUser from './pages/ProfileUser/ProfileUser';
+import WritePost from './pages/WritePost/WritePost';
+import MyContents from './pages/MyContents/MyContents';
 function App() {
   const [reload, setReload] = useState(false);
 
@@ -31,7 +34,7 @@ function App() {
     // Add any side effects or data fetching here
   }, [token, roles, reload]);
 
-  console.log("check =>", token, roles);
+  // console.log("check =>", token, roles);
 
   const handleReload = () => {
     setReload(!reload);
@@ -67,6 +70,9 @@ function App() {
       <Route element={<PrivateRoutes />}>
         <Route path='/' element={<Home />} />
         <Route path='/post/:id' element={<Post />} />
+        <Route path='/profile-user' element={<ProfileUser />} />
+        <Route path='/user/post/add' element={<WritePost />} />
+        <Route path='/user/my-contents' element={<MyContents />} />
       </Route>
       <Route element={<PublicRoutes />}>
         <Route path='/' element={<Home />} />

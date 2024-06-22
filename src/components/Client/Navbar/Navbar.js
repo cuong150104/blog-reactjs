@@ -9,13 +9,14 @@ const Home = () => {
         localStorage.removeItem('access_token')
         localStorage.removeItem('refresh_token')
         localStorage.removeItem('roles')
+        localStorage.removeItem('id')
         navigate("/login")
     }
 
 
 
 
-    return (<div>
+    return (
         <div className="header_section">
             <div className="container-fluid">
                 <div className="row">
@@ -61,8 +62,10 @@ const Home = () => {
                                         <li className="nav-item dropdown">
                                             <a className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i className="fas fa-user fa-fw"></i></a>
                                             <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                                <li><Link to="profile" className="dropdown-item">Settings</Link></li>
+                                                <li><Link to="/profile-user" className="dropdown-item">Settings</Link></li>
                                                 <li><hr className="dropdown-divider" /></li>
+                                                <li><Link to="/user/post/add" className="dropdown-item">Write post</Link></li>
+                                                <li><Link to="/user/my-contents" className="dropdown-item">My contents</Link></li>
                                                 <li><a className="dropdown-item" onClick={onHandleLogout}>Logout</a></li>
                                             </ul>
                                         </li>
@@ -74,7 +77,6 @@ const Home = () => {
                 </div>
             </div>
         </div>
-    </div>
     );
 }
 

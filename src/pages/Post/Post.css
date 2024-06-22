@@ -2,20 +2,7 @@
   width: 100%;
   display: flex;
   gap: 20px;
-  padding: 20px;
-  background-color: rgba(236, 234, 234, 0.667)
-}
-  
-  .listResultPost {
-    flex: 6;
-  }
+  padding: 40px;
+  background-color: rgba(227, 226, 224, 0.345);
 
-  .AccountUser {
-    flex: 2;
-    background-color:white;
-    padding: 10px;
-    border-radius: 10px;
-    position: sticky;
-    top: 10px;
-    height: max-content;
-  }
+}

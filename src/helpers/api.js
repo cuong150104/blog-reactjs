@@ -28,17 +28,18 @@ export default function requestApi(endpoint, method, body = [], responseType = '
         },
         async (error) => {
             const originalConfig = error.config;
-            console.log("Access token expired")
+            console.log("Access token expired",error)
             if (error.response && error.response.status === 419) {
                 try {
                     console.log("call refresh token api")
                     const result = await instance.post(`${process.env.REACT_APP_API_URL}/auth/refresh-token`, {
                         refresh_token: localStorage.getItem('refresh_token')
                     })
-                    const { access_token, refresh_token,roles } = result.data;
+                    const { access_token, refresh_token,roles,id } = result.data;
                     localStorage.setItem('access_token', access_token)
                     localStorage.setItem('refresh_token', refresh_token)
                     localStorage.setItem('roles', roles);
+                    localStorage.setItem('roles', id);
                     originalConfig.headers['Authorization'] = `Bearer ${access_token}`
 
                     return instance(originalConfig)
@@ -47,6 +48,7 @@ export default function requestApi(endpoint, method, body = [], responseType = '
                         localStorage.removeItem('access_token')
                         localStorage.removeItem('refresh_token')
                         localStorage.removeItem('roles')
+                        localStorage.removeItem('id')
                         window.location.href = '/login'
                     }
                     return Promise.reject(err)

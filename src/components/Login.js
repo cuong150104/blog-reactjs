@@ -62,6 +62,7 @@ const Login = ({ onLogin }) => {
                 localStorage.setItem('access_token', res.data.access_token);
                 localStorage.setItem('refresh_token', res.data.refresh_token);
                 localStorage.setItem('roles', res.data.userData.roles);
+                localStorage.setItem('id', res.data.userData.id);
                 console.log("check res => ", res.data.userData.roles);
                 dispatch(actions.controlLoading(false));
                 onLogin();
