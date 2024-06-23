@@ -287,8 +287,8 @@ nav.main-menu {
 
 .logo {
     float: left;
-    padding-top:5px;
-    
+    padding-top: 5px;
+
     width: 60px;
     height: 60px;
 
@@ -961,4 +961,15 @@ nav.main-menu {
     top: -45%;
     right: 0;
     left: -95%;
+}
+
+.nav-link-dang-nhap {
+    /* Các thuộc tính hiện tại */
+    margin-top: -20px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: rgb(211, 199, 199);
+    /* Thêm viền */
+    /* border: 2px solid #000; */
+    /* Màu đen, độ rộng 2px */
 }

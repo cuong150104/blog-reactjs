@@ -14,6 +14,8 @@ const Home = () => {
     }
 
 
+    let token = localStorage.getItem('access_token') || false;
+
 
 
     return (
@@ -35,13 +37,10 @@ const Home = () => {
                             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                                 <div className="navbar-nav">
                                     <ul>
-                                       <li> <Link to='/home' className="nav-item nav-link">Home</Link></li>
+                                        <li> <Link to='/home' className="nav-item nav-link">NEWEST</Link></li>
                                         <li>|</li>
-                                        <li><a className="nav-item nav-link" href="">About</a></li>
+                                        <li><a className="nav-item nav-link" href="">FOLLOWINGS</a></li>
                                         <li>|</li>
-                                        <li><a className="nav-item nav-link" href="">Cameras</a></li>
-                                        <li>|</li>
-                                        <li><a className="nav-item nav-link" href="">Contact Us</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -58,7 +57,7 @@ const Home = () => {
                             </div>
                             <div className="right_main">
                                 <div className="login_text">
-                                    <ul className="user_icon">
+                                    {token && <ul className="user_icon">
                                         <li className="nav-item dropdown">
                                             <a className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i className="fas fa-user fa-fw"></i></a>
                                             <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -69,14 +68,22 @@ const Home = () => {
                                                 <li><a className="dropdown-item" onClick={onHandleLogout}>Logout</a></li>
                                             </ul>
                                         </li>
-                                    </ul>
+                                    </ul>}
+                                    {!token && <Link className="" to="/login">
+                                        <button
+                                            className="nav-link-dang-nhap"
+                                            type="button"
+                                        >
+                                            Đăng Nhập
+                                        </button>
+                                    </Link>}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

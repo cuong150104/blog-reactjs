@@ -97,9 +97,9 @@ const PostUpdate = () => {
                 <div className="container-fluid px-4">
                     <h1 className="mt-4">Update post</h1>
                     <ol className="breadcrumb mb-4">
-                        <li className="breadcrumb-item"><Link to="/">Dashboard</Link></li>
+                        {/* <li className="breadcrumb-item"><Link to="/">Dashboard</Link></li>
                         <li className="breadcrumb-item"><Link to="/posts">Posts</Link></li>
-                        <li className="breadcrumb-item active">Update</li>
+                        <li className="breadcrumb-item active">Update</li> */}
                     </ol>
                     <div className="card mb-4">
                         <div className="card-header">
@@ -110,17 +110,17 @@ const PostUpdate = () => {
                             <div className="row mb-3">
                                 <form>
                                     <div className="row mb-3">
-                                        <div className="col-md-6">
+                                        <div className="col-md-8">
                                             <label className="form-label">Title:</label>
                                             <input {...register('title', { required: 'Title is quired.' })} type="text" className="form-control" placeholder="Enter title" />
                                             {errors.title && <p style={{ color: 'red' }}>{errors.title.message}</p>}
                                         </div>
-                                        <div className="col-md-6">
+                                        <div className="col-md-8">
                                             <label className="form-label">Summary:</label>
                                             <textarea row="4" {...register('summary', { required: 'Summary is quired.' })} type="text" className="form-control" placeholder="Enter Summary" />
                                             {errors.summary && <p style={{ color: 'red' }}>{errors.summary.message}</p>}
                                         </div>
-                                        <div className="col-md-6">
+                                        <div className="col-md-10">
                                             <label className="form-label">Description:</label>
                                             <CKEditor
                                                 editor={ClassicEditor}

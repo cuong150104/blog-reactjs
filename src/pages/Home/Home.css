@@ -20,7 +20,7 @@
   display: flex;
   gap: 20px;
   padding: 40px;
-  background-color: rgba(255, 255, 255, 250);
+  background-color: #f8f8f8;
 
 }
 
@@ -44,7 +44,7 @@
   /* Adjust padding as needed */
   margin-bottom: 10px;
   /* Adjust margin as needed */
-  border-bottom: 1px solid #ccc;
+  border-bottom: 20px solid #ccc;
   /* Adjust border color as needed */
 }
 

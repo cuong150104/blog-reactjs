@@ -9,6 +9,8 @@ const ProfileUser = () => {
     const dispatch = useDispatch();
     const [profileData, setProfileData] = useState({});
     const [isSelectedFile, setIsSelectFile] = useState(false);
+    const [refresh, setRefresh] = useState(Date.now())
+
     useEffect(() => {
         dispatch(actions.controlLoading(true));
         requestApi('/users/profile', 'GET')
@@ -21,7 +23,7 @@ const ProfileUser = () => {
                 console.log('err =>', err);
                 dispatch(actions.controlLoading(false));
             });
-    }, []);
+    }, [refresh]);
 
     const onImageChange = (event) => {
         if (event.target.files[0]) {
@@ -44,6 +46,7 @@ const ProfileUser = () => {
         dispatch(actions.controlLoading(true))
         requestApi('/users/upload-avatar', 'POST', formData, 'json', 'multipart/form-data').then(res => {
             console.log("res => ", res)
+            setRefresh(Date.now());
             dispatch(actions.controlLoading(false))
             toast.success('Avatar has been updated successfully!', { position: 'top-center', autoClose: 2000 })
         }).catch(err => {

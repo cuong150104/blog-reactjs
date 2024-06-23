@@ -73,7 +73,20 @@ function App() {
         <Route path='/profile-user' element={<ProfileUser />} />
         <Route path='/user/post/add' element={<WritePost />} />
         <Route path='/user/my-contents' element={<MyContents />} />
+        <Route path='/post/edit/:id' element={<PostUpdate />} />
       </Route>
+      <Route element={<PublicRoutes />}>
+        <Route path='/' element={<Home />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/post/:id' element={<Post />} />
+        <Route path='/login' element={<Login onLogin={handleReload} />} />
+        <Route path="/register" element={<Register />} />
+      </Route>
+    </Route>
+  );
+
+  const renderClientRoutes = () => (
+    <Route element={<Layout />}>
       <Route element={<PublicRoutes />}>
         <Route path='/' element={<Home />} />
         <Route path='/home' element={<Home />} />
@@ -86,10 +99,21 @@ function App() {
 
   return (
     <Routes>
-      {token && roles === "Admin" ? renderAdminRoutes() : renderUserRoutes()}
-      <Route path='*' element={<PageNotFound />} />
+      {token ? (
+        roles === "Admin" ? (
+          renderAdminRoutes()
+        ) : roles === "User" ? (
+          renderUserRoutes()
+        ) : (
+          renderClientRoutes()
+        )
+      ) : (
+        renderClientRoutes()
+      )}
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
+
 }
 
 export default App;

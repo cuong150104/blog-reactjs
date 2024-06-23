@@ -26,6 +26,7 @@
     "react-spinners": "^0.13.8",
     "react-toastify": "^10.0.5",
     "redux": "^5.0.1",
+    "resolve-url-loader": "^5.0.0",
     "swiper": "^6.8.4",
     "web-vitals": "^2.1.4"
   },
@@ -52,5 +53,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "sass": "^1.77.6",
+    "sass-loader": "^14.2.1"
   }
 }

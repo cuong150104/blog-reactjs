@@ -1,0 +1,16 @@
+.App {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.vote-button {
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.vote-count {
+  font-size: 2rem;
+}

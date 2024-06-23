@@ -1,79 +1,274 @@
-import React from 'react'
 
-const Register = () => {
-  return (
-    <div id="layoutAuthentication" className='bg-primary'>
-    <div id="layoutAuthentication_content">
-        <main>
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-lg-7">
-                        <div className="card shadow-lg border-0 rounded-lg mt-5">
-                            <div className="card-header"><h3 className="text-center font-weight-light my-4">Create Account</h3></div>
-                            <div className="card-body">
-                                <form>
-                                    <div className="row mb-3">
-                                        <div className="col-md-6">
-                                            <div className="form-floating mb-3 mb-md-0">
-                                                <input className="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" />
-                                                <label for="inputFirstName">First name</label>
+
+import "./Register.scss";
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import requestApi from '../helpers/api';
+import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux';
+import * as actions from '../redux/actions';
+import './Login.scss';
+
+const Register = (props) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const defaultValidInput = {
+        isValidEmail: true,
+        isValidPhone: true,
+        isValidPassword: true,
+        isValidConfirmPassword: true,
+    };
+    const [objCheckInput, setObjCheckInput] = useState(defaultValidInput);
+
+    let token = localStorage.getItem('access_token') || false;
+    useEffect(() => {
+        if (token) {
+            navigate("/");
+        }
+    }, []);
+
+    const isValidInput = () => {
+        setObjCheckInput(defaultValidInput);
+
+        if (!email) {
+            toast.error("Email is required");
+            setObjCheckInput({ ...defaultValidInput, isValidEmail: false });
+            return false;
+        }
+        let regx = /\S+@\S+\.\S+/;
+        if (!regx.test(email)) {
+            toast.error("Please enter a valid email address");
+            setObjCheckInput({ ...defaultValidInput, isValidEmail: false });
+            return false;
+        }
+        if (!phone) {
+            setObjCheckInput({ ...defaultValidInput, isValidPhone: false });
+            toast.error("Phone is required");
+            return false;
+        }
+        if (!password) {
+            setObjCheckInput({ ...defaultValidInput, isValidPassword: false });
+            toast.error("Password is required");
+            return false;
+        }
+
+        if (password !== confirmPassword) {
+            setObjCheckInput({
+                ...defaultValidInput,
+                isValidConfirmPassword: false,
+            });
+            toast.error("Your password is not the same");
+            return false;
+        }
+
+        return true;
+    };
+
+    const handleRegister = async () => {
+        let check = isValidInput();
+
+        // if (check === true) {
+        //     let serverData = await registerNewUser(
+        //         firstName,
+        //         lastName,
+        //         email,
+        //         phone,
+        //         username,
+        //         password
+        //     );
+        //     if (+serverData.EC === 0) {
+        //         toast.success(serverData.EM);
+        //         history.push("/login");
+        //     } else {
+        //         toast.error(serverData.EM);
+        //         if (+serverData.EC === 1) {
+        //             setObjCheckInput({ ...defaultValidInput, isValidEmail: false });
+        //         } else if (+serverData.EC === 2) {
+        //             setObjCheckInput({ ...defaultValidInput, isValidPhone: false });
+        //         }
+        //     }
+        // }
+    };
+
+    return (
+        <>
+            <div className="wrapper">
+                <div className="d-flex align-items-center justify-content-center my-5 my-lg-0">
+                    <div className="container">
+                        <div className="row row-cols-1 row-cols-lg-2 row-cols-xl-2">
+                            <div className="col mx-auto">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <div className="border p-4 rounded">
+                                            <Link to="/">
+                                                <div className="text-center">
+                                                    <img
+                                                        src={require("../images/logo.png")}
+                                                        width="30"
+                                                        height="30"
+                                                        className="d-inline-block align-top me-3"
+                                                        alt="Logo"
+                                                    />
+                                                    <h3 className="">Register</h3>
+                                                </div>
+                                            </Link>
+                                            <div className="mb-1">
+                                                <p className="gap-1">
+                                                    Already have an account?
+                                                    <Link to="/login"> Login here</Link>
+                                                </p>
+                                                <p className="gap-1">
+                                                    Register with Company?
+                                                    <Link to="/register-company"> Click here</Link>
+                                                </p>
                                             </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="form-floating">
-                                                <input className="form-control" id="inputLastName" type="text" placeholder="Enter your last name" />
-                                                <label for="inputLastName">Last name</label>
+                                            <div className="form-body">
+                                                <form className="row g-3">
+                                                    <div className="col-sm-6">
+                                                        <label for="inputFirstName" className="form-label">
+                                                            First Name
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            id="inputFirstName"
+                                                            placeholder="Jhon"
+                                                            onChange={(event) =>
+                                                                setFirstName(event.target.value)
+                                                            }
+                                                        ></input>
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label for="inputLastName" className="form-label">
+                                                            Last Name
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            id="inputLastName"
+                                                            placeholder="Deo"
+                                                            onChange={(event) =>
+                                                                setLastName(event.target.value)
+                                                            }
+                                                        ></input>
+                                                    </div>
+                                                    <div className="col-12">
+                                                        <label for="inputEmailAddress" className="form-label">
+                                                            Email Address
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            className={
+                                                                objCheckInput.isValidEmail
+                                                                    ? "form-control"
+                                                                    : "form-control is-invalid"
+                                                            }
+                                                            placeholder="Email address"
+                                                            value={email}
+                                                            onChange={(event) => setEmail(event.target.value)}
+                                                        />
+                                                    </div>
+                                                    <div className="col-12">
+                                                        <label for="inputEmailAddress" className="form-label">
+                                                            Phone Number
+                                                        </label>
+                                                        <input
+                                                            type="number"
+                                                            className={
+                                                                objCheckInput.isValidPhone
+                                                                    ? "form-control"
+                                                                    : "form-control is-invalid"
+                                                            }
+                                                            placeholder="Phone number"
+                                                            value={phone}
+                                                            onChange={(event) => setPhone(event.target.value)}
+                                                        />
+                                                    </div>
+                                                    <div className="col-12">
+                                                        <label for="inputEmailAddress" className="form-label">
+                                                            Username
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            placeholder="Username"
+                                                            value={username}
+                                                            onChange={(event) =>
+                                                                setUsername(event.target.value)
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="col-12">
+                                                        <label for="inputChoosePassword" className="form-label">
+                                                            Password
+                                                        </label>
+                                                        <div className="input-group" id="show_hide_password">
+                                                            <input
+                                                                type="password"
+                                                                className={
+                                                                    objCheckInput.isValidPassword
+                                                                        ? "form-control"
+                                                                        : "form-control is-invalid"
+                                                                }
+                                                                placeholder="Password"
+                                                                value={password}
+                                                                onChange={(event) =>
+                                                                    setPassword(event.target.value)
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-12">
+                                                        <label for="inputChoosePassword" className="form-label">
+                                                            Re-Enter Password
+                                                        </label>
+                                                        <div className="input-group" id="show_hide_password">
+                                                            <input
+                                                                type="password"
+                                                                className={
+                                                                    objCheckInput.isValidConfirmPassword
+                                                                        ? "form-control"
+                                                                        : "form-control is-invalid"
+                                                                }
+                                                                placeholder="Re-enter Password"
+                                                                value={confirmPassword}
+                                                                onChange={(event) =>
+                                                                    setConfirmPassword(event.target.value)
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-12">
+                                                        <div className="d-grid">
+                                                            <button
+                                                                className="btn btn-primary"
+                                                                type="button"
+                                                                onClick={() => handleRegister()}
+                                                            >
+                                                                Register
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="form-floating mb-3">
-                                        <input className="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
-                                        <label for="inputEmail">Email address</label>
-                                    </div>
-                                    <div className="row mb-3">
-                                        <div className="col-md-6">
-                                            <div className="form-floating mb-3 mb-md-0">
-                                                <input className="form-control" id="inputPassword" type="password" placeholder="Create a password" />
-                                                <label for="inputPassword">Password</label>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6">
-                                            <div className="form-floating mb-3 mb-md-0">
-                                                <input className="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" />
-                                                <label for="inputPasswordConfirm">Confirm Password</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="mt-4 mb-0">
-                                        <div className="d-grid"><a className="btn btn-primary btn-block" href="login.html">Create Account</a></div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div className="card-footer text-center py-3">
-                                <div className="small"><a href="login.html">Have an account? Go to login</a></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
-    <div id="layoutAuthentication_footer">
-        <footer className="py-4 bg-light mt-auto">
-            <div className="container-fluid px-4">
-                <div className="d-flex align-items-center justify-content-between small">
-                    <div className="text-muted">Copyright &copy; Your Website 2021</div>
-                    <div>
-                        <a href="#">Privacy Policy</a>
-                        &middot;
-                        <a href="#">Terms &amp; Conditions</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </div>
-</div>
-  )
-}
+        </>
+    );
+};
 
-export default Register
+export default Register;

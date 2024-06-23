@@ -10,6 +10,7 @@ import * as actions from '../../redux/actions'
 import { formatDateTime } from '../../helpers/common'
 import PostTitle from '../../components/Client/PostTitle/PostTitle'
 import ReactPaginate from "react-paginate";
+import Vote from'../../components/Client/Vote/Vote';
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -77,9 +78,9 @@ const Home = () => {
           </div>
 
           <div className="listPostsNew">
-            <h1 className="lsTitle">Search</h1>
+            <h1 className="lsTitle">Hot News</h1>
             <div className="lsItem">
-              <label>Destination </label>
+              <label> </label>
               <label>Adguard là một trình chặn quảng cáo mạnh mẽ có thể được sử dụng như một plugin trình duyệt Safari. Chỉ cần b</label>
             </div>
           </div>
